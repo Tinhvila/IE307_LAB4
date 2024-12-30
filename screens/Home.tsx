@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import ProductItem from '../components/ProductItem';
 import { fetchCartItems } from '../redux/cartSlice';
 import { jwtDecode } from 'jwt-decode';
+
 const { width: windowWidth } = Dimensions.get('window');
 const CarouselItem = ({ item }: { item: any }) => {
   return (
@@ -33,7 +34,6 @@ const CarouselItem = ({ item }: { item: any }) => {
 
 export default function Home() {
   const { t } = useTranslation();
-
   const [carouselData, setCarouselData] = React.useState<any>([]);
   const [hotDealData, setHotDealData] = React.useState<ItemProps[]>([]);
   const [newArrivalData, setNewArrivalData] = React.useState<ItemProps[]>([]);
@@ -42,11 +42,13 @@ export default function Home() {
   const { token } = useContext(AuthenticationContext);
   const decoded = jwtDecode(token);
   const id = Number(decoded.sub);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchCartItems(id));
     }
   }, []);
+
   React.useEffect(() => {
     const fetchAllProduct = async () => {
       try {

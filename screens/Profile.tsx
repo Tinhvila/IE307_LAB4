@@ -1,104 +1,120 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import i18n from '../utils/i18n.config';
+import React, { useEffect, useState } from 'react';
 import { AuthenticationContext } from '../context/context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileStackNavigationProp } from '../types/navigation';
+import { jwtDecode } from 'jwt-decode';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function Profile() {
-  const { t } = useTranslation();
-  const { setIsAuthenticated, setId } = React.useContext(AuthenticationContext);
-  const { userData } = React.useContext(AuthenticationContext);
+  const { token, setToken } = React.useContext(AuthenticationContext);
   const navigation = useNavigation<ProfileStackNavigationProp>();
-  const { setLanguage } = React.useContext(AuthenticationContext);
-  const changeLanguage = () => {
-    const newLanguage = i18n.language === 'en' ? 'vi' : 'en';
-    i18n.changeLanguage(newLanguage);
-    setLanguage(newLanguage === 'en' ? 'English' : 'Vietnamese');
+  const [userData, setUserData] = useState<any>({
+    email: '',
+    username: '',
+    password: '',
+    name: {
+      firstname: '',
+      lastname: '',
+    },
+    address: {
+      city: '',
+      street: '',
+      number: '',
+      zipcode: '',
+      geolocation: {
+        lat: '',
+        long: '',
+      },
+    },
+    phone: '',
+  });
+  const [loading, setLoading] = useState(true);
+  const decoded = jwtDecode(token);
+  const id = Number(decoded.sub);
+  const handleLogout = () => {
+    setToken('');
   };
 
-  const handleLogout = () => {
-    setId('');
-    setIsAuthenticated(false);
-  };
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/users/' + id)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserData(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </SafeAreaView>
+    );
+  }
 
   return (
-    <SafeAreaView className="flex-1">
-      <Text className="text-xl font-bold text-black px-2 py-3">
-        {t('main.profile')}
-      </Text>
-      <View className="bg-gray-200 w-full p-3">
-        <View className={'flex-row items-center gap-3'}>
-          <View
-            className={
-              'rounded-full bg-gray-400 w-24 h-24 items-center justify-center'
-            }
-          >
-            <Text className={'font-bold text-5xl'}>
-              {userData.username.at(0)?.toUpperCase()}
-            </Text>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="p-4">
+        <View className="space-y-4">
+          {/* Header */}
+          <View className="bg-white rounded-lg p-4 shadow-sm">
+            <View className="flex-row justify-between items-center">
+              <View className="flex-row items-center">
+                <View className="w-16 h-16 rounded-full bg-blue-500 items-center justify-center">
+                  <Text className="text-white text-2xl font-bold">
+                    {userData.username.charAt(0).toUpperCase()}
+                  </Text>
+                </View>
+                <View className="ml-4">
+                  <Text className="text-xl font-bold">
+                    {userData.name.firstname} {userData.name.lastname}
+                  </Text>
+                  <Text className="text-gray-500">@{userData.username}</Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('EditProfile')}
+              >
+                <Icon name="edit" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+
+            <View className="flex-col gap-3 mt-5">
+              <View className="flex-row ">
+                <Text className="font-bold w-28 text-xl">Name:</Text>
+                <Text className="text-xl">
+                  {userData.name.firstname} {userData.name.lastname}
+                </Text>
+              </View>
+
+              <View className="flex-row">
+                <Text className="font-bold w-28 text-xl">Username:</Text>
+                <Text className="text-xl">{userData.username}</Text>
+              </View>
+
+              <View className="flex-row">
+                <Text className="font-bold w-28 text-xl">Email:</Text>
+                <Text className="text-xl">{userData.email}</Text>
+              </View>
+
+              <View className="flex-row">
+                <Text className="font-bold w-28 text-xl">Phone:</Text>
+                <Text className="text-xl">{userData.phone}</Text>
+              </View>
+
+              <View className="space-y-2">
+                <View className="flex-row">
+                  <Text className="font-bold w-28 text-xl">Address:</Text>
+                  <Text className="text-xl">
+                    {userData.address.number}, {userData.address.street},{' '}
+                    {userData.address.city}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
-          <View>
-            <Text
-              className={'text-2xl font-bold'}
-            >{`${userData.firstName} ${userData.lastName}`}</Text>
-            <Text className={'text-base'}>({userData.username})</Text>
-          </View>
-        </View>
-        <View className={'px-3 py-3'}>
-          <Text className={'text-base'}>
-            <AntDesignIcon name="mail" size={20} color={'black'} />{' '}
-            {userData.email}
-          </Text>
-          <Text className={'text-base'}>
-            <AntDesignIcon name="phone" size={20} color={'black'} />{' '}
-            {userData.phoneNumber}
-          </Text>
-          <Text className={'text-base'}>
-            <AntDesignIcon name="home" size={20} color={'black'} />{' '}
-            {userData.address}
-          </Text>
-        </View>
-      </View>
-      <View className={'flex justify-around items-start flex-row mt-1'}>
-        <View className={'w-[50%]'}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Favorite')}
-            className={'justify-center items-center bg-gray-300 p-5 m-1'}
-          >
-            {/* tagso */}
-            <AntDesignIcon name="heart" size={32} />
-            <Text className={'mt-1 text-lg'}>{t('profile.favorite')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={changeLanguage}
-            className={'justify-center items-center bg-gray-300 p-5 m-1'}
-          >
-            <IoniconsIcon name="language" size={32} />
-            <Text className={'mt-1 text-lg'}>
-              {t('profile.change-language')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View className={'w-[50%]'}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('EditProfile')}
-            className={'justify-center items-center bg-gray-300 p-5 m-1'}
-          >
-            <AntDesignIcon name="edit" size={32} />
-            <Text className={'mt-1 text-lg'}>{t('profile.edit-profile')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleLogout}
-            className={'justify-center items-center bg-gray-300 p-5 m-1'}
-          >
-            <AntDesignIcon name="logout" size={32} />
-            <Text className={'mt-1 text-lg'}>{t('profile.log-out')}</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

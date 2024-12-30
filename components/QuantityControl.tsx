@@ -9,11 +9,7 @@ const QuantityControl: React.FC<{
 }> = ({ quantity, onIncrease, onDecrease }) => {
   return (
     <View className="flex-row items-center border border-gray-200 rounded-md">
-      <TouchableOpacity
-        onPress={onDecrease}
-        disabled={quantity <= 1}
-        className={`p-2 ${quantity <= 1 ? 'opacity-30' : ''}`}
-      >
+      <TouchableOpacity onPress={onDecrease} className={`p-2 `}>
         <Icon name="remove" size={20} color="black" />
       </TouchableOpacity>
       <Text className="px-4 text-base font-semibold">{quantity}</Text>

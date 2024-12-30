@@ -92,6 +92,9 @@ export type ItemsListScreenRouteProp = RouteProp<HomeStackNavigationParamList>;
 export type CartStackNavigationParamList = {
   Cart: undefined;
   Payment: undefined;
+  ItemDetails: {
+    productId: number;
+  };
 };
 
 // Type Navigation for Cart

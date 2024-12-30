@@ -4,6 +4,7 @@ import Cart from '../screens/Cart';
 import Payment from '../screens/Payment';
 import { CartStackNavigationParamList } from '../types/navigation';
 import { useNavigation } from '@react-navigation/native';
+import ItemDetails from '../screens/ItemDetails';
 
 const Stack = createNativeStackNavigator<CartStackNavigationParamList>();
 
@@ -38,6 +39,13 @@ export default function CartStackNavigation() {
         name="Payment"
         component={Payment}
         options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="ItemDetails"
+        component={ItemDetails}
+        options={({ route }) => ({
+          title: route.params?.productTitle,
+        })}
       />
     </Stack.Navigator>
   );

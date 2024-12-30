@@ -1,166 +1,186 @@
-import { View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, ActivityIndicator, Alert } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { AuthenticationContext } from '../context/context';
-import { patchUser } from '../api/fetchUser';
 import * as Yup from 'yup';
 import { ProfileStackNavigationProp } from '../types/navigation';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 export default function EditProfile() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
-  const { id } = React.useContext(AuthenticationContext);
-  const { userData, setUserData } = React.useContext(AuthenticationContext);
-  const [data, setData] = React.useState(userData);
+  const { token } = React.useContext(AuthenticationContext);
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+  });
 
-  const handleConfirm = async () => {
-    // Handle empty field
-    if (
-      data.firstName === ''
-      || data.lastName === ''
-      || data.username === ''
-      || data.phoneNumber === ''
-      || data.address === ''
-      || data.email === '') {
-      Alert.alert("Detected empty field", 'Please fill all the sign up field.');
-      return;
-    }
-
-    // Check if the email is valid or not
-    const emailSchema = Yup.string().email('Invalid email format');
-    const validateEmail = async () => {
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
-        // Attempt to validate the email
-        await emailSchema.validate(data.email);
-        // If validation passes, set validEmail to true
-        return true;
+        const response = await axios.get(`/${id}`);
+        const userData = response.data;
+        setFormData({
+          firstName: userData.firstName || '',
+          lastName: userData.lastName || '',
+          username: userData.username || '',
+          email: userData.email || '',
+          phoneNumber: userData.phoneNumber || '',
+          address: userData.address || '',
+        });
       } catch (error) {
-        console.log('Error while validating email: ', error);
-        // If validation fails, return false
-        return false;
+        Alert.alert('Error', 'Failed to fetch user data');
       }
     };
 
-    const validEmail = await validateEmail();
-    if (!validEmail) {
-      Alert.alert('Email does not exist, please try again');
-      return;
-    }
+    fetchUserData();
+  }, [id]);
 
-    // Update the data
-    const result = await patchUser(String(id), {
-      username: data.username,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phoneNumber: data.phoneNumber,
-      email: data.email,
-      address: data.address,
-    });
-    if (result) {
-      Alert.alert("Update successfully", "You have updated profile.");
-      setUserData(data);
-      navigation.goBack();
-    } else {
-      console.error('Error while patching data');
+  const handleConfirm = async () => {
+    try {
+      // Validate email format
+      const emailSchema = Yup.string().email();
+      await emailSchema.validate(formData.email);
+
+      // Validate required fields
+      if (!formData.firstName || !formData.lastName || !formData.username) {
+        Alert.alert('Error', 'Please fill in all required fields');
+        return;
+      }
+
+      // Update user data
+      const response = await axios.patch(`${FETCH_USER_API}/${id}`, formData);
+
+      if (response.status === 200) {
+        setUserData(response.data);
+        Alert.alert('Success', 'Profile updated successfully');
+        navigation.goBack();
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert('Error', 'Invalid email format');
+      } else {
+        Alert.alert('Error', 'Failed to update profile');
+      }
     }
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView className={'flex-1'}>
-        <View className={'flex-row items-center justify-between'}>
-          <View className={'flex-row items-center'}>
-            <TouchableOpacity
-              className={'ml-3'}
-              onPress={() => navigation.goBack()}
-            >
-              <AntDesignIcon name={'left'} size={20} />
-            </TouchableOpacity>
-            <Text className={'text-xl font-bold text-black px-2 py-3'}>{t('profile.edit-profile')}</Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ChangePassword')}
-            >
-              <Text className={'text-xl font-bold text-blue-500 px-2 py-3'}>{t('profile.change-password')}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View className={'mx-6 gap-3'}>
-          <View>
-            <Text>{t('profile.username')}</Text>
-            <TextInput
-              value={data.username}
-              onChangeText={(text) => setData((prev) => ({ ...prev, username: text }))}
-              placeholder='Username'
-              className={'border-2 rounded-xl border-gray-300 w-80 p-3'}
-              autoComplete='username'
-            />
-          </View>
-          <View className={'flex-row gap-5'}>
-            <View>
-              <Text>{t('profile.first-name')}</Text>
-              <TextInput
-                value={data.firstName}
-                onChangeText={(text) => setData((prev) => ({ ...prev, firstName: text }))}
-                placeholder='First name'
-                className={'border-2 rounded-xl border-gray-300 w-36 p-3'}
-                autoComplete='given-name'
-              />
-            </View>
-            <View>
-              <Text>{t('profile.last-name')}</Text>
-              <TextInput
-                value={data.lastName}
-                onChangeText={(text) => setData((prev) => ({ ...prev, lastName: text }))}
-                placeholder='Last name'
-                className={'border-2 rounded-xl border-gray-300 w-36 p-3'}
-                autoComplete='family-name'
-              />
-            </View>
-          </View>
-          <View>
-            <Text>{t('profile.email')}</Text>
-            <TextInput
-              value={data.email}
-              onChangeText={(text) => setData((prev) => ({ ...prev, email: text }))}
-              placeholder='Email'
-              className={'border-2 rounded-xl border-gray-300 w-80 p-3'}
-              autoComplete='email'
-              inputMode='email'
-            />
-          </View>
-          <View>
-            <Text>{t('profile.address')}</Text>
-            <TextInput
-              value={data.address}
-              onChangeText={(text) => setData((prev) => ({ ...prev, address: text }))}
-              placeholder='Address'
-              className={'border-2 rounded-xl border-gray-300 w-80 p-3'}
-            />
-          </View>
-          <View>
-            <Text>{t('profile.phone-number')}</Text>
-            <TextInput
-              value={data.phoneNumber}
-              onChangeText={(text) => setData((prev) => ({ ...prev, phoneNumber: text }))}
-              placeholder='Phone number'
-              inputMode='numeric'
-              className={'border-2 rounded-xl border-gray-300 w-80 p-3'}
-              autoComplete='tel'
-            />
-          </View>
-          <TouchableOpacity
-            onPress={handleConfirm}
-            className={'bg-black items-center rounded-lg mt-5'}>
-            <Text className={'text-white p-3 font-bold'}>{t('button.confirm')}</Text>
+      <SafeAreaView className="flex-1 bg-white">
+        {/* Header */}
+        <View className="flex-row items-center justify-between p-4">
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <AntDesignIcon name="left" size={24} />
           </TouchableOpacity>
+          <Text className="text-xl font-bold">{t('profile.edit-profile')}</Text>
+          <TouchableOpacity onPress={handleConfirm}>
+            <Text className="text-blue-500 font-bold">Save</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Form */}
+        <View className="p-4 space-y-4">
+          {/* Name Fields */}
+          <View className="flex-row space-x-4">
+            <View className="flex-1">
+              <Text className="text-gray-600">{t('profile.first-name')}</Text>
+              <TextInput
+                value={formData.firstName}
+                onChangeText={(text) =>
+                  setFormData((prev) => ({ ...prev, firstName: text }))
+                }
+                className="border p-2 rounded-lg mt-1"
+                placeholder="First name"
+              />
+            </View>
+            <View className="flex-1">
+              <Text className="text-gray-600">{t('profile.last-name')}</Text>
+              <TextInput
+                value={formData.lastName}
+                onChangeText={(text) =>
+                  setFormData((prev) => ({ ...prev, lastName: text }))
+                }
+                className="border p-2 rounded-lg mt-1"
+                placeholder="Last name"
+              />
+            </View>
+          </View>
+
+          {/* Username Field */}
+          <View>
+            <Text className="text-gray-600">{t('profile.username')}</Text>
+            <TextInput
+              value={formData.username}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, username: text }))
+              }
+              className="border p-2 rounded-lg mt-1"
+              placeholder="Username"
+            />
+          </View>
+
+          {/* Email Field */}
+          <View>
+            <Text className="text-gray-600">{t('profile.email')}</Text>
+            <TextInput
+              value={formData.email}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, email: text }))
+              }
+              className="border p-2 rounded-lg mt-1"
+              placeholder="Email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </View>
+
+          {/* Phone Number Field */}
+          <View>
+            <Text className="text-gray-600">{t('profile.phone-number')}</Text>
+            <TextInput
+              value={formData.phoneNumber}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, phoneNumber: text }))
+              }
+              className="border p-2 rounded-lg mt-1"
+              placeholder="Phone number"
+              keyboardType="phone-pad"
+            />
+          </View>
+
+          {/* Address Field */}
+          <View>
+            <Text className="text-gray-600">{t('profile.address')}</Text>
+            <TextInput
+              value={formData.address}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, address: text }))
+              }
+              className="border p-2 rounded-lg mt-1"
+              placeholder="Address"
+              multiline
+            />
+          </View>
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
-  )
+  );
 }
