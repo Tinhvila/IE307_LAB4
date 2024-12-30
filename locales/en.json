@@ -1,0 +1,149 @@
+{
+  "main": {
+    "home": "Home",
+    "categories": "Categories",
+    "cart": "Cart",
+    "profile": "Profile"
+  },
+  "profile": {
+    "change-language": "English -> Tiếng Việt",
+    "edit-profile": "Edit Profile",
+    "log-out": "Log Out",
+    "username": "Username",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "email": "Email",
+    "address": "Address",
+    "phone-number": "Phone Number",
+    "change-password": "Change Password",
+    "current-password": "Current Password",
+    "new-password": "New Password",
+    "retype-new-password": "Retype New Password",
+    "order-title": "Order",
+    "favorite": "Favorite"
+  },
+  "item_detail": {
+    "buynow_button": "BUY NOW",
+    "description": "Description",
+    "delivery_option": {
+      "free_delivery": "Free delivery",
+      "premium_delivery": "Premium delivery",
+      "cost_delivery": "Charged delivery"
+    }
+  },
+  "messages": {
+    "add-to-cart": "Added to cart successfully",
+    "remove-from-cart": "Removed from cart successfully",
+    "clear-cart": "All items have been removed from the cart",
+    "add-to-favorite": "Added to the favorite list",
+    "remove-from-favorite": "Removed from the favorite list",
+    "clear-favorite": "All items have been removed from the favorite list"
+  },
+  "alert": {
+    "confirm": "Confirm",
+    "no": "No",
+    "yes": "Yes",
+    "clear-cart": "Are you sure you want to clear all items in the cart?",
+    "clear-favorites": "Are you sure you want to clear all items in the favorite?"
+  },
+  "cart": {
+    "clear-cart": "Clear Cart",
+    "cart-empty-message": "Your cart is empty. Start shopping!",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "vat": "VAT (8%)",
+    "total": "Total",
+    "proceedToCheckout": "Proceed to Checkout"
+  },
+  "button": {
+    "confirm": "Confirm",
+    "reset-filter": "Reset filter",
+    "back-to-home": "Back to home"
+  },
+  "search": {
+    "search-placeholder": "Search item, product,..."
+  },
+  "home": {
+    "check-out": "Check out our latest product!",
+    "hot-deals": "Hot Deals 🔥",
+    "upcoming-event": "Upcoming Event 🥇",
+    "new-arrival": "New Arrival 📦"
+  },
+  "categories": {
+    "hot-deals": "Hot Deals",
+    "upcoming-event": "Upcoming Event",
+    "new-arrival": "New Arrival",
+    "sort-by-price": "Sort by price",
+    "sort-by-price-ascending": "Ascending price",
+    "sort-by-price-descending": "Descending price",
+    "filter": "Filters",
+    "brand": "Brand",
+    "price": "Price",
+    "rating": "Rating",
+    "empty-message": "Product not found!"
+  },
+  "authentication": {
+    "intro-title": "Bring yourself a new style with Titan",
+    "login": "Login",
+    "sign-up": "Sign Up",
+    "password": "Password",
+    "forgot-password": "Forgot password",
+    "no-account": "Don't have an account?",
+    "username": "Username",
+    "confirm-password": "Confirm Password",
+    "create-account": "CREATE ACCOUNT",
+    "sign-in-upper": "SIGN IN",
+    "has-account": "Already have an account?",
+    "sign-in": "Sign In",
+    "en": "EN",
+    "vi": "VI"
+  },
+  "payment": {
+    "title": "Payment",
+    "shippingInfo": "Shipping Information",
+    "fullName": "Full Name",
+    "phoneNumber": "Phone Number",
+    "shippingAddress": "Shipping Address",
+    "paymentMethod": "Payment Method",
+    "cod": "Cash on Delivery (COD)",
+    "creditCard": "Credit Card",
+    "creditDetails": "Credit Card Details",
+    "cardNumber": "Card Number",
+    "nameOnCard": "Name on Card",
+    "expiryDate": "MM/YY",
+    "cvv": "CVV",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shippingFee": "Shipping Fee",
+    "vat": "VAT (8%)",
+    "total": "Total",
+    "placeOrder": "Place Order",
+    "optional": "optional",
+    "validation_error": {
+      "title": "Error",
+      "message": "Please fill in all required fields"
+    },
+    "card_error": {
+      "invalid_number": {
+        "title": "Error",
+        "message": "The card number must be 14 characters long."
+      },
+      "invalid_expiry_date": {
+        "title": "Error",
+        "message": "Invalid expiry date"
+      },
+      "invalid_cvv": {
+        "title": "Error",
+        "message": "Invalid CVV"
+      }
+    },
+    "success": {
+      "title": "Order Placed",
+      "message": "Your order has been successfully placed!"
+    },
+    "failure": {
+      "title": "Error",
+      "message": "Failed to place order. Please try again."
+    }
+  }
+}

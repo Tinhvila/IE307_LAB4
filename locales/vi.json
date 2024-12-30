@@ -1,0 +1,154 @@
+{
+  "main": {
+    "home": "Trang Chủ",
+    "categories": "Danh Mục",
+    "cart": "Giỏ Hàng",
+    "profile": "Hồ Sơ"
+  },
+  "profile": {
+    "change-language": "Tiếng Việt -> English",
+    "edit-profile": "Chỉnh Sửa Hồ Sơ",
+    "log-out": "Đăng Xuất",
+    "username": "Tên Đăng Nhập",
+    "first-name": "Tên",
+    "last-name": "Họ",
+    "email": "Email",
+    "address": "Địa Chỉ",
+    "phone-number": "Số Điện Thoại",
+    "change-password": "Đổi Mật Khẩu",
+    "current-password": "Mật Khẩu Hiện Tại",
+    "new-password": "Mật Khẩu Mới",
+    "retype-new-password": "Nhập Lại Mật Khẩu Mới",
+    "order-title": "Đơn Hàng",
+    "favorite": "Yêu thích"
+  },
+  "item_detail": {
+    "buynow_button": "MUA NGAY",
+    "description": "Mô Tả",
+    "delivery_option": {
+      "free_delivery": "Miễn Phí Giao Hàng",
+      "premium_delivery": "Giao Hàng Cao Cấp",
+      "cost_delivery": "Giao Hàng Mất Phí"
+    }
+  },
+  "messages": {
+    "add-to-cart": "Đã Thêm Vào Giỏ Hàng Thành Công",
+    "remove-from-cart": "Đã Xóa Khỏi Giỏ Hàng Thành Công",
+    "clear-cart": "Tất Cả Mặt Hàng Đã Được Xóa Khỏi Giỏ Hàng",
+    "add-to-favorite": "Đã Thêm Vào Danh Sách Yêu Thích",
+    "remove-from-favorite": "Đã Xóa Khỏi Danh Sách Yêu Thích",
+    "clear-favorite": "Tất Cả Mặt Hàng Đã Được Xóa Khỏi Danh Sách Yêu Thích"
+  },
+  "alert": {
+    "confirm": "Xác Nhận",
+    "no": "Không",
+    "yes": "Có",
+    "clear-cart": "Bạn Có Chắc Chắn Muốn Xóa Tất Cả Mặt Hàng Trong Giỏ Hàng?",
+    "clear-favorites": "Bạn Có Chắc Chắn Muốn Xóa Tất Cả Mặt Hàng Trong Danh Sách Yêu Thích?"
+  },
+  "cart": {
+    "clear-cart": "Xóa Giỏ Hàng",
+    "cart-empty-message": "Giỏ Hàng Của Bạn Trống. Hãy Bắt Đầu Mua Sắm!",
+    "subtotal": "Tổng giá",
+    "shipping": "Phí vận chuyển",
+    "vat": "Thuế VAT (8%)",
+    "total": "Tổng cộng",
+    "proceedToCheckout": "Tiến hành thanh toán"
+  },
+  "button": {
+    "confirm": "Xác Nhận",
+    "reset-filter": "Đặt Lại Bộ Lọc",
+    "back-to-home": "Về trang chủ"
+  },
+  "search": {
+    "search-placeholder": "Tìm Kiếm Mặt Hàng, Sản Phẩm,..."
+  },
+  "home": {
+    "check-out": "Xem Sản Phẩm Mới Nhất Của Chúng Tôi!",
+    "hot-deals": "Ưu Đãi Nóng 🔥",
+    "upcoming-event": "Sự Kiện Sắp Tới 🥇",
+    "new-arrival": "Sản Phẩm Mới 📦"
+  },
+  "categories": {
+    "hot-deals": "Ưu Đãi Nóng",
+    "upcoming-event": "Sự Kiện Sắp Tới",
+    "new-arrival": "Sản Phẩm Mới",
+    "sort-by-price": "Sắp Xếp: Giá",
+    "sort-by-price-ascending": "Giá Tăng Dần",
+    "sort-by-price-descending": "Giá Giảm Dần",
+    "filter": "Bộ Lọc",
+    "brand": "Thương Hiệu",
+    "price": "Giá",
+    "rating": "Đánh Giá",
+    "empty-message": "Không tìm thấy sản phẩm!"
+  },
+  "authentication": {
+    "intro-title": "Mang Đến Cho Bạn Một Phong Cách Mới Với Titan",
+    "login": "Đăng Nhập",
+    "sign-up": "Đăng Ký",
+    "password": "Mật Khẩu",
+    "forgot-password": "Quên Mật Khẩu",
+    "no-account": "Chưa Có Tài Khoản?",
+    "username": "Tên Đăng Nhập",
+    "confirm-password": "Xác Nhận Mật Khẩu",
+    "create-account": "TẠO TÀI KHOẢN",
+    "sign-in-upper": "ĐĂNG NHẬP",
+    "has-account": "Đã Có Tài Khoản?",
+    "sign-in": "Đăng Nhập",
+    "en": "EN",
+    "vi": "VI"
+  },
+  "payment": {
+    "title": "Thanh toán",
+    "shippingInfo": "Thông tin giao hàng",
+    "fullName": "Họ và tên",
+    "phoneNumber": "Số điện thoại",
+    "shippingAddress": "Địa chỉ giao hàng",
+    "paymentMethod": "Phương thức thanh toán",
+    "cod": "Thanh toán khi nhận hàng (COD)",
+    "creditCard": "Thẻ tín dụng",
+    "creditDetails": "Thông tin thẻ tín dụng",
+    "cardNumber": "Số thẻ",
+    "nameOnCard": "Tên trên thẻ",
+    "expiryDate": "MM/YY",
+    "cvv": "CVV",
+    "orderSummary": "Tóm tắt đơn hàng",
+    "subtotal": "Tạm tính",
+    "shippingFee": "Phí vận chuyển",
+    "vat": "Thuế VAT (8%)",
+    "total": "Tổng cộng",
+    "placeOrder": "Đặt hàng",
+    "optional": "không bắt buộc",
+    "validation_error": {
+      "title": "Lỗi",
+      "message": "Vui lòng điền đầy đủ các trường bắt buộc"
+    },
+    "card_error": {
+      "invalid_number": {
+        "title": "Lỗi",
+        "message": "Số thẻ phải đủ 14 ký tự"
+      },
+      "invalid_expiry_date": {
+        "title": "Lỗi",
+        "message": "Ngày hết hạn không hợp lệ"
+      },
+      "invalid_cvv": {
+        "title": "Lỗi",
+        "message": "CVV không hợp lệ"
+      }
+    },
+    "success": {
+      "title": "Đặt hàng thành công",
+      "message": "Đơn hàng của bạn đã được đặt thành công!"
+    },
+    "failure": {
+      "title": "Lỗi",
+      "message": "Đặt hàng thất bại. Vui lòng thử lại."
+    }
+  },
+  "favorites": {
+    "clear-favorites": "Xóa tất cả",
+    "add-to-cart": "Thêm vào giỏ hàng",
+    "remove-from-cart": "Xóa khỏi giỏ hàng"
+  }
+}
