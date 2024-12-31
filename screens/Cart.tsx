@@ -7,8 +7,8 @@ import {
   Text,
   View,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { updateCartItem, removeFromCart, clearCart } from '../redux/cartSlice';

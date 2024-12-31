@@ -5,10 +5,10 @@ import {
   Image,
   FlatList,
   Dimensions,
-  ActivityIndicator,
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomCarousel from '../components/CustomCarousel';

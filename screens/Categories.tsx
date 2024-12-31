@@ -5,9 +5,9 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
-  Image,
 } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
+
 import ProductItem from '../components/ProductItem';
 
 export default function Categories() {

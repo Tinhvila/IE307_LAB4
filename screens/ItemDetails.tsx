@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Platform,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
+
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import StarList from '../components/StarList';
 import { useRoute } from '@react-navigation/native';
 import { ItemProps } from '../types/types';
 

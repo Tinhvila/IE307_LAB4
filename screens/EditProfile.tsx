@@ -16,11 +16,17 @@ import * as Yup from 'yup';
 import { ProfileStackNavigationProp } from '../types/navigation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { ActivityIndicator } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EditProfile() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const { token } = React.useContext(AuthenticationContext);
+  const decoded = jwtDecode(token);
+  const id = decoded.sub;
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -28,30 +34,46 @@ export default function EditProfile() {
     username: '',
     email: '',
     phoneNumber: '',
-    address: '',
+    houseNumber: 0,
+    street: '',
+    city: '',
   });
 
-  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`/${id}`);
+        const response = await axios.get(
+          `https://fakestoreapi.com/users/${id}`
+        );
         const userData = response.data;
+        console.log(userData);
+
         setFormData({
-          firstName: userData.firstName || '',
-          lastName: userData.lastName || '',
+          firstName: userData.name.firstname || '',
+          lastName: userData.name.lastname || '',
           username: userData.username || '',
           email: userData.email || '',
-          phoneNumber: userData.phoneNumber || '',
-          address: userData.address || '',
+          phoneNumber: userData.phone || '',
+          houseNumber: userData.address.number || 0,
+          street: userData.address.street || '',
+          city: userData.address.city || '',
         });
+        setLoading(false);
       } catch (error) {
         Alert.alert('Error', 'Failed to fetch user data');
       }
     };
 
     fetchUserData();
-  }, [id]);
+  }, []);
+
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </SafeAreaView>
+    );
+  }
 
   const handleConfirm = async () => {
     try {
@@ -65,14 +87,10 @@ export default function EditProfile() {
         return;
       }
 
-      // Update user data
-      const response = await axios.patch(`${FETCH_USER_API}/${id}`, formData);
-
-      if (response.status === 200) {
-        setUserData(response.data);
-        Alert.alert('Success', 'Profile updated successfully');
-        navigation.goBack();
-      }
+      // Save updatedProfile to AsyncStorage
+      await AsyncStorage.setItem('updatedProfile', JSON.stringify(formData));
+      navigation.goBack();
+      Alert.alert('Success', 'Profile updated successfully');
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Error', 'Invalid email format');
@@ -166,16 +184,44 @@ export default function EditProfile() {
             />
           </View>
 
-          {/* Address Field */}
+          {/* house number */}
           <View>
-            <Text className="text-gray-600">{t('profile.address')}</Text>
+            <Text className="text-gray-600">House Number</Text>
             <TextInput
-              value={formData.address}
+              value={formData.houseNumber.toString()}
               onChangeText={(text) =>
-                setFormData((prev) => ({ ...prev, address: text }))
+                setFormData((prev) => ({ ...prev, houseNumber: Number(text) }))
               }
               className="border p-2 rounded-lg mt-1"
-              placeholder="Address"
+              placeholder="House number"
+              multiline
+            />
+          </View>
+
+          {/* street */}
+          <View>
+            <Text className="text-gray-600">Street</Text>
+            <TextInput
+              value={formData.street}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, street: text }))
+              }
+              className="border p-2 rounded-lg mt-1"
+              placeholder="Street"
+              multiline
+            />
+          </View>
+
+          {/* City */}
+          <View>
+            <Text className="text-gray-600">City</Text>
+            <TextInput
+              value={formData.city}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, city: text }))
+              }
+              className="border p-2 rounded-lg mt-1"
+              placeholder="City"
               multiline
             />
           </View>
